@@ -140,10 +140,9 @@ const option = {
 
 const Dashboard = () => {
   return (
-    <div className="App-header">
+    <div className="App">
       <ReactECharts
-      option={option
-      }/>
+        option={option}/>
     </div>
   );
 };
