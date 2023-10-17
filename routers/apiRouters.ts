@@ -5,7 +5,7 @@ const Queue = require("bull");
 
 const redisClient = Redis.createClient();
 const queue = new Queue("jobQueue", { redis: redisClient });
-redisClient.connect()
+
 const apiRouter = Router();
 
 apiRouter.get("/ping", (_, res) => {
@@ -65,31 +65,26 @@ apiRouter.get("/user/:id", async (req, res) => {
 
 apiRouter.post("/users", async (req, res) => {
   const newUser = new UserModel({
-    name: req.name,
-    email: req.email,
+    name: req.body.name,
+    email: req.body.email,
   });
-  await redisClient.set(newUser._id, JSON.stringify(newUser));
-  return await newUser.save();
+  await newUser.save();
+  res.json(newUser)
 });
 
-apiRouter.put("/users/:id", async (req, res) => {
+apiRouter.put("/user/:id", async (req, res) => {
   const { id } = req.params;
 
   const updatedUser = await UserModel.findByIdAndUpdate(id, req.body, {
     new: true,
   });
-  await redisClient.set(id, JSON.stringify(req.body));
   res.json(updatedUser);
 });
 
-apiRouter.delete("/users/:id", async (req, res) => {
+apiRouter.delete("/user/:id", async (req, res) => {
   const { id } = req.params;
 
   const deletedUser = await UserModel.findByIdAndDelete(id);
-  await redisClient.del(id, (err, res) => {
-    if (err) throw err;
-    console.log(res);
-  });
   res.json(deletedUser);
 });
 
