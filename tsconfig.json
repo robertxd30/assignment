@@ -1,0 +1,20 @@
+{
+    "ts-node": {
+        "transpileOnly": true,
+        "compilerOptions": {
+          "module": "commonjs",
+          "esModuleInterop": true
+        },
+        "esm": true 
+      },
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "target": "es6",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "sourceMap": true
+    },
+    "include": ["./**/*.ts"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
+}
